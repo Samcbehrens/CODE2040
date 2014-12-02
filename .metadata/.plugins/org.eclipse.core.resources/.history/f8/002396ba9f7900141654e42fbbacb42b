@@ -1,0 +1,17 @@
+
+import java.util.*;
+
+public class NeedleInHay {
+
+	
+public static void main(String args[]){
+	String needle="";
+	String [] haystack= new String[3];
+	int indexOfstring=(Integer) null;
+	for(int i=0;i<haystack.length;i++){
+		if(haystack[i].compareTo(needle)>0){
+			indexOfstring=i;
+		}
+	}
+}
+}

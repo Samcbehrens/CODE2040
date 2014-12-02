@@ -1,0 +1,21 @@
+import java.util.*;
+public class Test {
+
+	public Test() {
+		// TODO Auto-generated constructor stub
+	}
+
+public static void main(String[] args){
+	String pw="hands!1";
+	CheckUnique checkClass=new CheckUnique();
+	
+	if(checkClass.check(pw).equals(false)){
+		System.out.println("false");
+	} else {
+		System.out.println("true");
+	}
+	
+	
+}
+
+}

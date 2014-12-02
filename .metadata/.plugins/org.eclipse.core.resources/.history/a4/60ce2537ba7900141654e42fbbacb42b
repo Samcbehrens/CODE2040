@@ -1,0 +1,90 @@
+
+public class datatime {
+
+	
+public static void main(String args[]){
+	String initStringtime="";
+	String DatevsTime[]=initStringtime.split("T");
+	String dateArray[]=DatevsTime[0].split(":");
+	
+	
+	
+	//Splits into {year,month,day,overalltime}
+	//have to split overall time to hours and seconds 
+	
+	String year=dateArray[0];
+	Integer intYear=Integer.parseInt(year);
+	
+	String month=dateArray[1];
+	Integer intMonth=Integer.parseInt(month);
+	
+	String day=dateArray[2];
+	Integer intDay=Integer.parseInt(day);
+	
+	String timeArray[]=DatevsTime[1].split(":");
+	
+	String hour=timeArray[0];
+	Integer intHour=Integer.parseInt(hour);
+	 
+	String minute=timeArray[1];
+	Integer intMinute=Integer.parseInt(minute);
+	
+	String getRidofmill[] = null;
+	
+	if(timeArray[2].contains("+")){
+		getRidofmill=timeArray[1].split("+");
+	}
+	else if (timeArray[2].contains("Z")){
+		getRidofmill=timeArray[1].split("Z");
+	}
+	else if (timeArray[2].contains("-")){
+		getRidofmill=timeArray[1].split("-");
+	}
+
+	String seconds=getRidofmill[0];
+	Integer intSecond=Integer.parseInt(seconds);
+	
+	int interval=0;
+	//convert interval into year, moth, days,hours,minutes,seconds 
+	
+	float intervalDays=(((interval/60)/60)/24);//minutes,hours,days
+	//figure out if  else for months with 29,30, and 31 days 
+	float monthstoAdd=intervalDays%30;
+	float daystoAdd=intervalDays-(30*monthstoAdd);
+	float hourstoAdd=(intervalDays%1)*24;
+	float minutestoAdd=(hourstoAdd%1)*60;
+	float secondstoAdd=(minutestoAdd%1)*60;
+	
+	intMonth=intMonth+monthstoAdd;
+	
+	//if months equal more than one year
+	if(intMonth>12){
+		intYear=intYear+1;
+		intMonth=intMonth%12;
+	}
+	
+	intDay=intDay+daystoAdd;
+	//deal with month with different days 
+	
+	intHour=intHour+hourstoAdd;
+	if(intHour>24){
+		intDay=intDay+1;
+		intHour=intHour%24;
+	}
+	
+	intMinutes=intMinutes+minutestoAdd;
+	if(intMinute>60){
+		intHour=intHour+1;
+		intMinute=intMinute%60;
+	}
+	
+	intSecond=intSecond+secondstoAdd;
+	if (intSecond>60){
+		intMinute=intMinute+1;
+		intSecond=intSecond%60;
+	}
+	
+	
+	
+}
+}

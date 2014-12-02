@@ -1,0 +1,19 @@
+
+import java.util.*;
+
+public class NeedleInHay {
+
+	
+public static void main(String args[]){
+	String needle="and";
+	String[] haystack1={"and","or","else","if"};
+	
+	int indexOfstring = 0;
+	for(int i=0;i<haystack1.length;i++){
+		if(haystack1[i].compareTo(needle)>0){
+			indexOfstring=i;
+		}
+	}
+	System.out.println(indexOfstring);
+}
+}
