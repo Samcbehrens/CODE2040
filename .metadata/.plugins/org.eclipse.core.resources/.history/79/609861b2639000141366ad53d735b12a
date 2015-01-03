@@ -1,0 +1,24 @@
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import Connect.HttpConnect;
+
+/**
+ * code taken from http://www.codejava.net/java-se/networking/an-http-utility-class-to-send-getpost-request
+ * implemented for code2040 api challenge
+ * @author sambehrens
+ *
+ */
+public class main {
+	public main(){
+
+	}
+
+
+	public static void main(String[]args){
+		ReverseString initString=new ReverseString("dmLKv");
+		String finalString=initString.getReversedstring();
+		System.out.println(finalString);
+	}
+}

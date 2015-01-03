@@ -1,3 +1,4 @@
+//org.eclipse.ui.commands/state/com.aptana.editor.common.commands.toggleOutline/org.eclipse.ui.commands.toggleState=false
 //org.eclipse.ui.commands/state/com.aptana.explorer.commands.toggleAppExplorer/org.eclipse.ui.commands.toggleState=false
 PLUGINS_NOT_ACTIVATED_ON_STARTUP=org.eclipse.m2e.discovery;
 eclipse.preferences.version=1

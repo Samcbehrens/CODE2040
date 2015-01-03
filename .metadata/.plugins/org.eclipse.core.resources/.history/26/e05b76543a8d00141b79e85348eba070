@@ -1,0 +1,37 @@
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Map;
+
+
+public class runexamples {
+
+	public static void main(String[] args){
+		HttpConnect connectToCode2040= new HttpConnect();
+		String url="http://challenge.code2040.org/api/register";
+		Map<String,String> params=new HashMap();
+		
+		try {
+			connectToCode2040.sendGetRequest(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			connectToCode2040.sendPostRequest(url, null);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			String response =connectToCode2040.readSingleLineRespone();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		connectToCode2040.disconnect();
+		
+	}
+}

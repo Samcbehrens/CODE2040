@@ -1,0 +1,60 @@
+
+public class PalindromProblem {
+	public PalindromProblem(){
+	}
+	
+	
+
+
+
+public static Boolean checkPalindrom(String input){
+	char[] inputArray=input.toCharArray();
+	Boolean isPalindrom=true;
+	int left=(Integer) null;
+	int right=(Integer)null;
+
+	if(inputArray.length%2==0){
+		left=0;
+		right=inputArray.length; 
+
+		while(left!=right){
+			if(inputArray[left]!=(inputArray[right])){
+				isPalindrom=false;
+				return isPalindrom;
+			}
+	
+			left++;
+			right=right-1;
+		}
+				// even number of letter
+	}else{
+		int startingPoint= (inputArray.length/2)+1;
+				//left of pointer
+				//right of pointer
+
+		for( left=inputArray.length/2; left<0; left=left-1){
+			
+			if(inputArray[left]!=inputArray[inputArray.length-left]){
+				isPalindrom=false;
+				return isPalindrom;
+			}
+			left=left-1;
+			right=right+1;	
+		}	//odd number of letters
+	}
+
+	return isPalindrom;
+
+}
+
+public static void main(String[] args){
+	String input1="moom";
+	String input2="racecar";
+	
+	Boolean figured=checkPalindrom(input1);
+	Boolean figured2=checkPalindrom(input2);
+	System.out.println(figured);
+	System.out.println(figured2);
+}
+
+}

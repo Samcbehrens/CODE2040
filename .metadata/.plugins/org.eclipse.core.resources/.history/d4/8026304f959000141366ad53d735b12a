@@ -1,0 +1,41 @@
+import java.util.Vector;
+
+
+public class prefix {
+	String[] givenArray;
+	String prefix;
+	String finalStringArray[];
+	
+public prefix (String[] givenArray, String prefix){
+	this.givenArray=givenArray;
+	Vector<String> vectorToarray=new Vector<String>();
+	
+	this.prefix=prefix;
+	
+	for(int i=0; i<givenArray.length;i++){
+		if(givenArray[i].startsWith(prefix)==false){
+			vectorToarray.add(givenArray[i]);
+		}
+	}
+	String finalArray[]=vectorToarray.toArray(new String[vectorToarray.size()]);
+	
+	this.finalStringArray=finalArray;
+	
+	for(int j=0; j<finalStringArray.length;j++){
+		System.out.println(finalStringArray[j]);
+	}
+}
+
+public String[] getFinalarray(){
+	return finalStringArray;
+}
+
+public static void main(String[] args){
+	String[] sarray={"477x4Ux3","477uINI0","1737jsVQ","477bKLi3","477431za","279cpAmc"};
+	String prefix="477";
+	prefix solver=new prefix(sarray,prefix);
+	
+	
+}
+
+}

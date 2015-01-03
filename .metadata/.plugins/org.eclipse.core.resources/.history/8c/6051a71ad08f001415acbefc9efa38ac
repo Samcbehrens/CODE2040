@@ -1,0 +1,31 @@
+package Connect;
+
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+
+
+public class UniRestConnect {
+	
+}
+
+public static void main(String[] args){
+	HttpResponse<JsonNode> jsonResponse = Unirest.post("http://challenge.code2040.org/api/register")
+			  .header("accept", "application/json")
+			  .queryString("email", "sbehrens@smith.edu")
+			  .field("github", "https://github.com/Samcbehrens/CODE2040.git")
+			  .asJson();
+	
+	//OR 
+	
+	HttpResponse<JsonNode> jsonResponse = Unirest.post("http://challenge.code2040.org/api/register")
+			  .header("accept", "application/json")
+			  .field("email", "sbehrens@smith.edu")
+			  .field("github", "https://github.com/Samcbehrens/CODE2040.git")
+			  .asJson();
+}
+
+
+
+
+}

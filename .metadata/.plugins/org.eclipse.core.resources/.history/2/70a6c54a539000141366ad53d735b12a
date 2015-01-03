@@ -1,0 +1,35 @@
+
+
+
+public class NeedleInHay {
+	String needle;
+	String[] haystack;
+	int indexOfstring;
+	
+public NeedleInHay(String[] haystack, String needle) {
+	this.needle=needle;
+	this.haystack=haystack;
+	
+	this.indexOfstring = 0;
+	for(int i=0;i<haystack.length;i++){
+		if(haystack[i].compareTo(needle)==0){
+			this.indexOfstring=i;
+		}
+	}
+	System.out.println("Final output");
+	System.out.println(indexOfstring);
+}
+	
+	
+public int getIndexofNeedle(){
+	return indexOfstring;	
+}
+
+public static void main(String[] args){
+	String[] sArray={"MgRML","fTxWM","nSE06","zWoK8","dG9Ik","VtF10","7DUQj","J6AOu","tBpAZ","USApN","1Bnec","w23ml","GcJKb","v7KZD","oiBSZ","axoie","1bTBH","GL3MQ","7Peft","JCtVT"};
+	NeedleInHay finder=new NeedleInHay(sArray,"w23ml");
+	int index=finder.getIndexofNeedle();
+	System.out.println(index);
+	
+}
+}

@@ -1,0 +1,38 @@
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import Connect.HttpConnect;
+
+/**
+ * code taken from http://www.codejava.net/java-se/networking/an-http-utility-class-to-send-getpost-request
+ * implemented for code2040 api challenge
+ * @author sambehrens
+ *
+ */
+public class main {
+	public main(){
+
+	}
+
+
+	public static void main(String[]args){
+		HttpConnect openConnection= new HttpConnect();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("Email", "sbehrens@smith.edu");
+		params.put("github", "https://github.com/Samcbehrens/CODE2040.git");
+
+		try{
+			openConnection.sendPostRequest("http://challenge.code2040.org/api/register",params);
+			String[] response = HttpConnect.readMultipleLinesRespone();
+			for (String line : response) {
+				System.out.println(line);
+			}
+			
+		}catch (IOException ex) {
+            ex.printStackTrace();
+
+		}
+		HttpConnect.disconnect();
+	}
+}

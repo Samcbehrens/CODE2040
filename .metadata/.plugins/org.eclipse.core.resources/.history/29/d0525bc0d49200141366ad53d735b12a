@@ -1,0 +1,224 @@
+
+import java.util.Stack;
+import java.util.StringTokenizer;
+
+/**
+ * Problem 4 of the CODE 2040 API Challenge: Add seconds to ISO datestamp format
+ * @author sambehrens
+ *
+ */
+
+public class datatime {
+
+	Stack<Float> Times;
+	int month;
+	int days;
+	
+/***
+ * conversion of total seconds into years, months, days, hours, minutes, and remaining seconds. Returns a stack with the values 
+ * @param seconds	 integer seconds passed in
+ * @return Integer stack with conversion
+ */
+public Stack<Float> converstion(int seconds){
+	Times=new Stack<Float>();
+	
+	float secondstoAdd=seconds%60;
+	Times.push(secondstoAdd);
+	
+	float totalMinutes=(float) Math.floor(seconds/60);
+	float minutestoAdd=totalMinutes%60;
+	Times.push(minutestoAdd);
+	
+	float totalHours=(float) Math.floor(totalMinutes/60);
+	float hourstoAdd=totalHours%24;
+	Times.push(hourstoAdd);
+	
+	float totalDays=(float) Math.floor(totalHours/24);//minutes,hours,days 
+	Times.push(totalDays);
+	
+	//not sure how to deal with MONTHS!!!!! :S
+	
+	return Times;
+}
+/***
+ * This function parses the time string into years, months, days, hours, minutes, seconds
+ * @param initStringtime string representation of ISO time format
+ * @return Stack 		 Integer Stack of all parsed values without non number characters
+ */
+public Stack<Integer> parser(String initStringtime){
+	Stack <Integer> dateTimestack= new Stack<Integer>(); 
+	StringTokenizer findNum=new StringTokenizer(initStringtime,"T-:+Z .");
+	
+	while(findNum.hasMoreTokens()){	
+		String token=findNum.nextToken();
+		dateTimestack.push(Integer.parseInt(token));
+	}
+		
+	return dateTimestack;
+	
+}
+/**
+ * Considering that each month has a different number of days, this calculates the resulting month by subtracting the total days depending on the month 
+ * @param intDay	total days calculated from seconds
+ * @param intMonth	month parsed from original ISO datestamp
+ */
+public void FindMonth(float intDay,int intMonth){
+	
+	while(intDay>28){
+		if(intMonth==9 ||intMonth==4 ||intMonth==6 ||intMonth==11 ){
+			intDay=intDay-30;
+			intMonth=intMonth+1;
+		
+		}
+		else if((intMonth==2)){
+			intDay=intDay-28;
+			intMonth=intMonth+1;
+			
+		}
+		else if(intDay>=31){
+			
+			intDay=intDay-31;
+			intMonth=intMonth+1;
+		}
+	}
+	this.month=intMonth;
+	this.days=(int) intDay;
+}
+
+/**
+ *
+ * @return month that is calculated from Find Month method
+ */
+public int getMonth(){
+	return month;
+}
+/**
+ * @return days that are calculated from Find Month method
+ */
+public int getDay(){
+	return days;
+}
+	
+public static void main(String args[]){
+	//SOMETHING WRONG WITH ADDING MONTHS. 
+	
+	//put interval time here
+	int interval=292781130;//DOESNT DO YEARS ROLLOVER AND WIPE OLD MONTHS 
+	
+	datatime dataTimeobject=new datatime();
+	
+	//put initial time here
+	String initStringtime="2026-03-22T22:17:00.000Z";
+	System.out.println(initStringtime+" original number");
+	
+	
+	Stack<Integer>ParsedNum=dataTimeobject.parser(initStringtime);
+	
+	
+	
+	System.out.println(intSecond+"second");
+	int intMinute=ParsedNum.pop();
+	System.out.println(intMinute+"minute");
+
+	int intHour=ParsedNum.pop();
+	System.out.println(intHour);
+
+	int intDay=ParsedNum.pop();
+	System.out.println(intDay);
+
+	int intMonth=ParsedNum.pop();
+	System.out.println(intMonth+"Month");
+
+	int intYear=ParsedNum.pop();
+	System.out.println(intYear);
+
+	
+	//convert interval into year, moth, days,hours,minutes,seconds 
+	Stack<Float> outputStack=dataTimeobject.converstion(interval);
+	
+	
+	float daystoAdd=outputStack.pop();
+	float hourstoAdd=outputStack.pop();
+	float minutestoAdd=outputStack.pop();
+	float secondstoAdd=outputStack.pop();
+	
+
+	dataTimeobject.FindMonth(daystoAdd,intMonth);//PASSED THIS VALUE IN WRONG. 
+	int monthstoAdd=dataTimeobject.getMonth();
+	int finalDay=dataTimeobject.getDay();
+	
+	 intMonth=dataTimeobject.getMonth();
+	
+	///DOESNT DEAL WITH LEEP YEARS :S
+	int yearsToadd=(int) Math.floor((daystoAdd/365));
+	intYear=intYear+yearsToadd;
+	
+	//if months are greater than a year
+	if(monthstoAdd>12){
+		intMonth=monthstoAdd%12;
+	}
+	
+	intDay=(int) (intDay+finalDay);
+	
+	intHour=(int) (intHour+hourstoAdd);
+	if(intHour>=24){
+		intDay=intDay+1;
+		intHour=intHour%24;
+	}
+	
+	intMinute=(int) (intMinute+minutestoAdd);
+	if(intMinute>=60){
+		intHour=intHour+1;
+		intMinute=intMinute%60;
+	}
+	
+	
+	intSecond= (int) (intSecond+secondstoAdd);
+	if (intSecond>=60){
+		intMinute=intMinute+1;
+		intSecond=intSecond%60;
+	}
+	
+	String finalOutput=""+intYear+"-";
+	
+	if(intMonth<10){
+		finalOutput=finalOutput+0;
+
+	}
+	
+	finalOutput=finalOutput+intMonth+"-";
+
+	if(intDay<10){
+		finalOutput=finalOutput+0;
+	}
+	finalOutput=finalOutput+intDay+"T";
+
+	if(intHour<10){
+		finalOutput=finalOutput+0;
+	}
+	finalOutput=finalOutput+intHour+":";
+
+	if(intMinute<10){
+		finalOutput=finalOutput+0;
+	}
+	finalOutput=finalOutput+intMinute+":";
+
+	if(intSecond<10){
+		finalOutput=finalOutput+0;
+	}
+	finalOutput=finalOutput+intSecond;
+
+	if (initStringtime.contains("Z")){
+		finalOutput=finalOutput+"Z";
+	}
+	else{
+		String[] getRideofmill=initStringtime.split("\\+");
+		String[] millis=getRideofmill[getRideofmill.length-1].split("\\s");
+		
+		finalOutput=finalOutput+ " + "+millis[millis.length-1];
+		
+	}
+	
+	System.out.println(finalOutput);
+}
+}
