@@ -15,7 +15,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-
 import java.text.StringCharacterIterator;
 //import org.json.JSONArray;
 import java.util.Map;
@@ -30,12 +29,12 @@ public class SimpleHTTPPOSTRequester {
  
     private String token;
     private String apiURL;
-    private String time;
+    private String array;
  
-    public SimpleHTTPPOSTRequester(String token, String time, String apiURL) {        
+    public SimpleHTTPPOSTRequester(String token, String array, String apiURL) {        
         this.apiURL = apiURL;
         this.token = token;
-        this.time=time;
+        this.array=array;
       
         
     }
@@ -48,7 +47,8 @@ public class SimpleHTTPPOSTRequester {
 //Should look like 
             
             
-            p.setEntity(new StringEntity("{\"token\":\"" + this.token + "\",\"time\":\"" + this.time + "\"}",                    ContentType.create("application/json")));
+            p.setEntity(new StringEntity("{\"token\":\"" + this.token  + "\",\"datestamp\":\"" + this.array + "\"}",    
+            		ContentType.create("application/json")));
             
             HttpResponse r = c.execute(p);
             	
@@ -71,55 +71,11 @@ public class SimpleHTTPPOSTRequester {
         }                        
     }  
     
-    
-    public static String forJSON(String aText){
-	    final StringBuilder result = new StringBuilder();
-	    StringCharacterIterator iterator = new StringCharacterIterator(aText);
-	    char character = iterator.current();
-	    while (character != StringCharacterIterator.DONE){
-	      if( character == '\"' ){
-	        result.append("\\\"");
-	      }
-	      else if(character == '\\'){
-	        result.append("\\\\");
-	      }
-	      else if(character == '/'){
-	        result.append("\\/");
-	      }
-	      else if(character == '\b'){
-	        result.append("\\b");
-	      }
-	      else if(character == '\f'){
-	        result.append("\\f");
-	      }
-	      else if(character == '\n'){
-	        result.append("\\n");
-	      }
-	      else if(character == '\r'){
-	        result.append("\\r");
-	      }
-	      else if(character == '\t'){
-	        result.append("\\t");
-	      }
-	      else {
-	        //the char is not a special one
-	        //add it to the result as is
-	        result.append(character);
-	      }
-	      character = iterator.next();
-	    }
-	    return result.toString();    
-	  }
-    
     public static void main(String[] args){
-    	//String[] array={"1737jsVQ","279cpAmc"};
-    	//  JsonArray jarray=new JsonArray
-    	//jarray.put(array[0]);
-    	//jarray.put(array[1]);
-    	//System.out.println(jarray.toString());\
-    	String[] array = "{/ "1737jsVQ", "279cpAmc" /}";
-		String jsonString=forJSON(array);
-    	SimpleHTTPPOSTRequester requester=new SimpleHTTPPOSTRequester("zsb97KMvgO",jsonString,,"http://challenge.code2040.org/api/validateprefix");
+    
+    	String array= "2035-07-02T14:22:30.000Z";
+    	System.out.println(array);
+    	SimpleHTTPPOSTRequester requester=new SimpleHTTPPOSTRequester("zsb97KMvgO",array,"http://challenge.code2040.org/api/validatetime");
     	requester.makeHTTPPOSTRequest();
     }
 }

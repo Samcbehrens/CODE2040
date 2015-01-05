@@ -1,6 +1,6 @@
 import java.util.Stack;
 import java.util.StringTokenizer;
-import java.util.concurrent.TimeUnit;
+import java.util.Vector;
 
 /**
  * Problem 4 of the CODE 2040 API Challenge: Add seconds to ISO datestamp format
@@ -12,8 +12,34 @@ import java.util.concurrent.TimeUnit;
 public class datatime {
 
 	Stack<Float> Times;
-	int month;
-	int days;
+
+	int calcMonth;
+	int calcDay;
+
+	int finalYear;
+	int finalMonth;
+	int finalDay;
+	int finalHour;
+	int finalMinute;
+	int finalSecond;
+	int finalMillis;
+	int timeZonehours;
+	int timeZoneminutes;
+
+	int addYear;
+	int addMonth;
+	int addDay;
+	int addHour;
+	int addMinute;
+	int addSecond;
+
+	int parsedYear;
+	int parsedMonth;
+	int parsedDay;
+	int parsedHour;
+	int parsedMinute;
+	int parsedSecond;
+	int parsedMillis;
 
 	/***
 	 * conversion of total seconds into years, months, days, hours, minutes, and
@@ -23,8 +49,7 @@ public class datatime {
 	 *            integer seconds passed in
 	 * @return Integer stack with conversion
 	 */
-	public Stack<Float> converstion(int seconds) {
-		Times = new Stack<Float>();
+	public void converstion(int seconds) {
 
 		/*
 		 * could also use this format for conversion int day =
@@ -39,26 +64,18 @@ public class datatime {
 		 * System.out.println(second+"second");
 		 */
 
-		float secondstoAdd = seconds % 60;
-		Times.push(secondstoAdd);
-		System.out.println(secondstoAdd + "secondstoadd");
-
-		float totalMinutes = (float) Math.floor(seconds / 60);
-		float minutestoAdd = totalMinutes % 60;
-		Times.push(minutestoAdd);
-		System.out.println(minutestoAdd + "minutestoadd");
+		this.addSecond = seconds % 60;
+		int totalMinutes = (int) Math.floor(seconds / 60);
+		int minutestoAdd = totalMinutes % 60;
+		this.addMinute = minutestoAdd;
 
 		float totalHours = (float) Math.floor(totalMinutes / 60);
 		float hourstoAdd = totalHours % 24;
-		Times.push(hourstoAdd);
-		System.out.println(hourstoAdd + "hoursToAdd");
+		this.addHour = (int) hourstoAdd;
 
 		float totalDays = (float) Math.floor(totalHours / 24);// minutes,hours,days
-		Times.push(totalDays);
-		System.out.println(totalDays + "totalDays");
+		this.addDay = (int) totalDays;
 
-		
-		return Times;
 	}
 
 	/***
@@ -70,16 +87,68 @@ public class datatime {
 	 * @return Stack Integer Stack of all parsed values without non number
 	 *         characters
 	 */
-	public Stack<Integer> parser(String initStringtime) {
-		Stack<Integer> dateTimestack = new Stack<Integer>();
+	public void parser(String initStringtime) {
+		Vector<Integer> dateTimestack = new Vector<Integer>();
 		StringTokenizer findNum = new StringTokenizer(initStringtime, "T-:+Z .");
 
 		while (findNum.hasMoreTokens()) {
 			String token = findNum.nextToken();
-			dateTimestack.push(Integer.parseInt(token));
+			dateTimestack.add(Integer.parseInt(token));
 		}
 
-		return dateTimestack;
+		int count = 0;
+
+		if (count <= dateTimestack.size() - 1) {
+			this.parsedYear = dateTimestack.get(count);
+			// System.out.println(intYear + "year");
+			count++;
+		}
+
+		if (count <= dateTimestack.size() - 1) {
+			this.parsedMonth = dateTimestack.get(count);
+			// System.out.println(intMonth + "Month");
+			count++;
+		}
+
+		if (count <= dateTimestack.size() - 1) {
+			this.parsedDay = dateTimestack.get(count);
+			// System.out.println(intDay + "Day");
+			count++;
+		}
+		if (count <= dateTimestack.size() - 1) {
+			this.parsedHour = dateTimestack.get(count);
+			// System.out.println(intHour + "Hour");
+			count++;
+		}
+
+		if (count <= dateTimestack.size() - 1) {
+			this.parsedMinute = dateTimestack.get(count);
+			// System.out.println(intMinute + "minute");
+			count++;
+		}
+
+		if (count <= dateTimestack.size() - 1) {
+			this.parsedSecond = dateTimestack.get(count);
+			// System.out.println(intSecond + "second");
+			count++;
+		}
+
+		if (count <= dateTimestack.size() - 1) {
+			this.parsedMillis = dateTimestack.get(count);
+			// System.out.println(intMillis+"millis");
+			count++;
+		}
+		setMillis(parsedMillis);
+
+		if (count <= dateTimestack.size() - 1) {
+			timeZonehours = dateTimestack.get(count);
+			count++;
+		}
+
+		if (count <= dateTimestack.size() - 1) {
+			timeZoneminutes = dateTimestack.get(count);
+			count++;
+		}
 
 	}
 
@@ -88,193 +157,180 @@ public class datatime {
 	 * calculates the resulting month by subtracting the total days depending on
 	 * the month
 	 * 
-	 * @param intDay
+	 * @param addDay
 	 *            total days calculated from seconds
-	 * @param intMonth
+	 * @param parsedMonth
 	 *            month parsed from original ISO datestamp
 	 */
-	public void FindMonth(float intDay, int intMonth) {
-
-
-		while (intDay > 28) {
-
-			if (intMonth == 12) {
-				intMonth = 0;
-			}
-
-			if (intMonth == 9 || intMonth == 4 || intMonth == 6
-					|| intMonth == 11 && intDay >= 31) {
-				intDay = intDay - 30;
-				intMonth = intMonth + 1;
-
-			} else if ((intMonth == 2 && intDay >= 31)) {
-				intDay = intDay - 28;
-				intMonth = intMonth + 1;
-
-			} else if (intDay >= 31) {
-				intDay = intDay - 31;
-				intMonth = intMonth + 1;
-			}
+	public void FindMonth() {
+		
+		
+		this.calcDay = addDay+parsedDay;
+		this.calcMonth = parsedMonth;
+		
+		finalHour = parsedHour + addHour;
+		
+		if (finalHour >= 24) {
+			calcDay = calcDay + 1;
+		
 		}
-		this.month = intMonth;
-		this.days = (int) intDay - 30;
+		while (calcDay > 28) {
+
+			if (calcMonth == 13) {
+				calcMonth = 1;
+			}
+			if (calcMonth == 9 || calcMonth == 4 || calcMonth == 6
+					|| calcMonth == 11 && calcDay >= 31) {
+				calcDay = calcDay - 30;
+				calcMonth = calcMonth + 1;
+				
+
+			} else if ((calcMonth == 2 && calcDay >= 31)) {
+				calcDay = calcDay - 28;
+				calcMonth = calcMonth + 1;
+			
+
+			} else if (calcDay >= 31) {
+				calcDay = calcDay - 31;
+				calcMonth = calcMonth + 1;
+				
+			}else{
+				break;
+			}
+			
+		}
+		
+		addMonth = calcMonth;
 	}
 
-	/**
-	 *
-	 * @return month that is calculated from Find Month method
-	 */
-	public int getMonth() {
-		return month;
+	public String formatOutputString(String initStringtime,
+			Boolean isTimezonePos) {
+		String finalOutput = "" + this.finalYear + "-";
+
+		if (this.finalMonth < 10) {
+			finalOutput = finalOutput + 0;
+
+		}
+
+		finalOutput = finalOutput + this.finalMonth + "-";
+
+		if (this.finalDay < 10) {
+			finalOutput = finalOutput + 0;
+		}
+		finalOutput = finalOutput + this.finalDay + "T";
+
+		if (this.finalHour < 10) {
+			finalOutput = finalOutput + 0;
+		}
+		finalOutput = finalOutput + this.finalHour + ":";
+
+		if (this.finalMinute < 10) {
+			finalOutput = finalOutput + 0;
+		}
+		finalOutput = finalOutput + this.finalMinute + ":";
+
+		if (this.finalSecond < 10) {
+			finalOutput = finalOutput + 0;
+		}
+		finalOutput = finalOutput + this.finalSecond;
+
+		if (this.finalMillis >= 0) {
+			String[] getRideofmill = initStringtime.split("\\.");
+			String[] millis = getRideofmill[getRideofmill.length - 1]
+					.split("\\s");
+			finalOutput = finalOutput + "." + millis[millis.length - 1];
+
+		}
+
+		return finalOutput;
+
 	}
 
-	/**
-	 * @return days that are calculated from Find Month method
-	 */
-	public int getDay() {
-		return days;
+	public void adder() {
+
+		// /DOESNT DEAL WITH LEEP YEARS :S
+		addYear = (int) Math.floor((this.addDay / 365));
+
+		finalYear = parsedYear + addYear;
+
+		// if months are greater than a year
+		
+		finalMonth = this.calcMonth;
+		
+		this.finalDay = parsedDay + calcDay;
+		if(finalDay>28){
+			if (finalMonth == 9 || finalMonth == 4 || finalMonth == 6
+					|| finalMonth == 11 && finalDay>=31) {
+				finalDay=finalDay-30;
+				finalMonth++;
+			}
+			else if (finalMonth == 2 && finalDay>=29){
+				finalDay=finalDay-28;
+				finalMonth++;
+			}
+			else if(finalMonth != 2||finalMonth != 9 || finalMonth != 4 || finalMonth != 6
+					|| finalMonth != 11 && finalDay>32){
+				finalDay=finalDay-31;
+				finalMonth++;
+			}
+
+		}
+		
+
+		finalHour = parsedHour + addHour;
+		
+		if (finalHour >= 24) {
+			finalDay = finalDay + 1;
+			finalHour = finalHour % 24;
+		}
+
+		finalMinute = parsedMinute + addMinute;
+		if (this.parsedMinute >= 60) {
+			finalHour = finalHour + 1;
+			finalMinute = finalMinute % 60;
+		}
+
+		finalSecond = parsedSecond + addSecond;
+		if (finalSecond >= 60) {
+			finalMinute = finalMinute + 1;
+			finalSecond = finalSecond % 60;
+		}
+
+	}
+
+	public boolean isTimezonePos(String givenString) {
+		int doesPosexist = givenString.indexOf("+", givenString.length() - 4);
+		if (doesPosexist >= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void setMillis(int millis) {
+		this.finalMillis = millis;
 	}
 
 	public static void main(String args[]) {
 
 		// put interval time here
-		int interval = 292781130;// DOESNT DO YEARS ROLLOVER AND WIPE OLD MONTHS
+		int interval = 292781130;
 
 		datatime dataTimeobject = new datatime();
 
 		// put initial time here
 		String initStringtime = "2026-03-22T22:17:00.000Z";
-		String otherExample="";
-		System.out.println(otherExample);
-		System.out.println(initStringtime + " original number");
+		//String initStringtime ="0000-00-00T00:00:00.000Z";
 
-		Stack<Integer> ParsedNum = dataTimeobject.parser(initStringtime);
-		int intMillis=0;
-		int intSecond=0;
-		int intMinute=0;
-		int intHour=0;
-		int intDay=0;
-		int intMonth=0;
-		int intYear=0;
-		
-		if (ParsedNum.peek() != null) {
-			intMillis=ParsedNum.pop();
-		}
-
-		if (ParsedNum.peek() != null) {
-			intSecond = ParsedNum.pop();
-			System.out.println(intSecond + "second");
-		}
-		if (ParsedNum.peek() != null) {
-			 intMinute = ParsedNum.pop();
-			System.out.println(intMinute + "minute");
-		}
-		if (ParsedNum.peek() != null) {
-			 intHour = ParsedNum.pop();
-			System.out.println(intHour+"Hour");
-		}
-		if (ParsedNum.peek() != null) {
-			 intDay = ParsedNum.pop();
-			System.out.println(intDay+"Day");
-		}
-		if (ParsedNum.peek() != null) {
-			 intMonth = ParsedNum.pop();
-			System.out.println(intMonth + "Month");
-		}
-		if (ParsedNum.peek() != null) {
-			 intYear = ParsedNum.pop();
-			System.out.println(intYear+"year");
-		}
-		
-		// convert interval into year, moth, days,hours,minutes,seconds
-		Stack<Float> outputStack = dataTimeobject.converstion(interval);
-
-		float daystoAdd = outputStack.pop();
-		float hourstoAdd = outputStack.pop();
-		float minutestoAdd = outputStack.pop();
-		float secondstoAdd = outputStack.pop();
-
-		dataTimeobject.FindMonth(daystoAdd, intMonth);// PASSED THIS VALUE IN
-														// WRONG.
-		int monthstoAdd = dataTimeobject.getMonth();
-		int finalDay = dataTimeobject.getDay();
-
-		intMonth = dataTimeobject.getMonth();
-
-		// /DOESNT DEAL WITH LEEP YEARS :S
-		int yearsToadd = (int) Math.floor((daystoAdd / 365));
-		intYear = intYear + yearsToadd;
-
-		// if months are greater than a year
-		if (monthstoAdd > 12) {
-			intMonth = monthstoAdd % 12;
-		}
-
-		intDay = (int) (intDay + finalDay);
-
-		intHour = (int) (intHour + hourstoAdd);
-		if (intHour >= 24) {
-			intDay = intDay + 1;
-			intHour = intHour % 24;
-		}
-
-		intMinute = (int) (intMinute + minutestoAdd);
-		if (intMinute >= 60) {
-			intHour = intHour + 1;
-			intMinute = intMinute % 60;
-		}
-
-		intSecond = (int) (intSecond + secondstoAdd);
-		if (intSecond >= 60) {
-			intMinute = intMinute + 1;
-			intSecond = intSecond % 60;
-		}
-
-		String finalOutput = "" + intYear + "-";
-
-		if (intMonth < 10) {
-			finalOutput = finalOutput + 0;
-
-		}
-
-		finalOutput = finalOutput + intMonth + "-";
-
-		if (intDay < 10) {
-			finalOutput = finalOutput + 0;
-		}
-		finalOutput = finalOutput + intDay + "T";
-
-		if (intHour < 10) {
-			finalOutput = finalOutput + 0;
-		}
-		finalOutput = finalOutput + intHour + ":";
-
-		if (intMinute < 10) {
-			finalOutput = finalOutput + 0;
-		}
-		finalOutput = finalOutput + intMinute + ":";
-
-		if (intSecond < 10) {
-			finalOutput = finalOutput + 0;
-		}
-		finalOutput = finalOutput + intSecond;
-
-		if (initStringtime.contains("Z")) {
-			if(initStringtime.indexOf(".")>17){
-				finalOutput = finalOutput +"."+ intMillis+"00"+"Z";
-			}
-			
-		} else {
-			String[] getRideofmill = initStringtime.split("\\+");
-			String[] millis = getRideofmill[getRideofmill.length - 1]
-					.split("\\s");
-
-			finalOutput = finalOutput + " + " + millis[millis.length - 1];
-
-		}
+		dataTimeobject.parser(initStringtime);
+		dataTimeobject.converstion(interval);
+		dataTimeobject.FindMonth();
+		dataTimeobject.adder();
+		Boolean isPos = dataTimeobject.isTimezonePos(initStringtime);
+		String finalOutput = dataTimeobject.formatOutputString(initStringtime,
+				isPos);
 
 		System.out.println(finalOutput);
-		System.out.println(initStringtime+"original number");
-		System.out.println("suppose to be july 1 2035");
+		System.out.println(initStringtime + "original number");
 	}
 }

@@ -47,6 +47,8 @@ public static void main(String[] args){
 	String[] sarray={"477x4Ux3","477uINI0","1737jsVQ","477bKLi3","477431za","279cpAmc"};
 	String prefix="477";
 	prefix solver=new prefix(sarray,prefix);
+	//String array= "[ \"737jsVQ\",\"79cpAmc\"]";
+	//System.out.println(array);
 	
 	
 }

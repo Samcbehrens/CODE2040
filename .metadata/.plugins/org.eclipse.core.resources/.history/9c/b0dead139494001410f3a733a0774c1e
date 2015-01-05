@@ -1,0 +1,14 @@
+
+public class DateTestClass {
+
+	public static void main(String[] args){
+	System.out.println("hello1");
+	datatime tester= new datatime();
+	String testString="0000-00-01T01:00:00.000Z";
+	tester.parser(testString);
+	tester.converstion(5184000);
+	tester.FindMonth();
+	tester.adder();
+	tester.formatOutputString(testString, false);
+}
+}

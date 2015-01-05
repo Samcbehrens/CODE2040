@@ -77,11 +77,11 @@ public class ArraySimpleHTTPPOSTRequester {
 
 	public static void main(String[] args) {
 		String[] array = { "1737jsVQ", "279cpAmc" };
-		String jsonString=
+		/*String jsonString=
 		System.out.println(jarray.toString());
 		ArraySimpleHTTPPOSTRequester requester = new ArraySimpleHTTPPOSTRequester(
-				"zsb97KMvgO", jarray,
+				"zsb97KMvgO", " ",
 				"http://challenge.code2040.org/api/validatetime");
-		requester.makeHTTPPOSTRequest();
+		requester.makeHTTPPOSTRequest();*/
 	}
 }

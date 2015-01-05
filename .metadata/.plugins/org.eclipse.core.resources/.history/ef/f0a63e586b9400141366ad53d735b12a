@@ -1,0 +1,9 @@
+
+public class DateTestClass {
+
+public static void main(String[] args){
+	datatime tester= new datatime();
+	tester.getMonth(30);
+	
+}
+}

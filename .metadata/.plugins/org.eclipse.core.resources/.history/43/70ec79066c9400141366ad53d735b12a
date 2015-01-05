@@ -1,0 +1,11 @@
+
+public class DateTestClass {
+
+public static void main(String[] args){
+	datatime tester= new datatime();
+	tester.FindMonth(12,30);
+	System.out.println("hello1");
+	System.out.println(tester.getMonth());
+	System.out.println(tester.getDay());
+}
+}
